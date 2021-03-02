@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - ../temp/db/:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    volumes:
+      - .:/shop_test
+    ports:
+      - '3001:3001'
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/shop_test
+    tty: true
